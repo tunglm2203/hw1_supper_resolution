@@ -95,7 +95,7 @@ def flip(x, dim):
              else torch.arange(x.size(i)-1, -1, -1).long()
              for i in range(x.dim()))]
 
-def compute_mean_datset(path, format='png'):
+def compute_mean_dataset(path, format='png'):
     file = glob.glob(os.path.join(path, '*.%s'%(format)))
     file.sort()
     n_images = len(file)

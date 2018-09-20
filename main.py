@@ -195,7 +195,7 @@ def main():
                     tensor_board.add_image(str(batch_idx + 1) + '_HR', hr_images, iter)
                     tensor_board.add_image(str(batch_idx + 1) + '_SR', sr_images, iter)
             valid_psnr = valid_psnr / n_valid
-            print("Validation PSNR: %.4f, SSIM: %.4f\n" % (valid_psnr))
+            print("Validation PSNR: %.4f\n" % (valid_psnr))
             tensor_board.add_scalar('Validation PSNR', valid_psnr, iter)
 
             # ---------- save model ----------
@@ -227,4 +227,4 @@ if __name__ == '__main__':
     # training_path = './data/train/LR/'
     # format = 'jpg'
     # print('Computing mean and std of dataset...')
-    # compute_mean_datset(training_path, format)
+    # compute_mean_dataset(training_path, format)
