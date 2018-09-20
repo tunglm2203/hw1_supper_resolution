@@ -75,6 +75,7 @@ def main():
 
     # ---------- Loading dataset ----------
     print('Loading data...')
+    time_start = time.time()
     training_data = SRDataset(path=training_path,
                               patch_size=patch_size,
                               scale=scale,
@@ -85,6 +86,7 @@ def main():
                            scale=scale,
                            crop=False,
                            transform=data_transforms['val'])
+    print("Load data done: %.4f (s)\n" % (time.time() - time_start))
     print("Number training data: %d" % (len(training_data)))
     print("Number validation data: %d" % (len(valid_data)))
 
@@ -177,6 +179,7 @@ def main():
         # ---------- Log to Tensorboard ----------
         print("\nIter: %d. Loss: %.4f\n" % (iter, epoch_loss))
         tensor_board.add_scalar('Training loss', epoch_loss, iter)
+        tensor_board.add_scalar('Learning rate', cur_lr, iter)
 
         # ---------- Validation ----------
         if (iter + 1) % args.period_check == 0:
@@ -192,7 +195,7 @@ def main():
                     tensor_board.add_image(str(batch_idx + 1) + '_HR', hr_images, iter)
                     tensor_board.add_image(str(batch_idx + 1) + '_SR', sr_images, iter)
             valid_psnr = valid_psnr / n_valid
-            print("Validation PSNR: %.4f\n" % (valid_psnr))
+            print("Validation PSNR: %.4f, SSIM: %.4f\n" % (valid_psnr))
             tensor_board.add_scalar('Validation PSNR', valid_psnr, iter)
 
             # ---------- save model ----------
@@ -221,24 +224,7 @@ if __name__ == '__main__':
     main()
 
     # Snippet used to compute mean and standard deviation
-    # import numpy as np
-    # from PIL import Image
+    # training_path = './data/train/LR/'
+    # format = 'jpg'
     # print('Computing mean and std of dataset...')
-    # training_path = './data/train'
-    # file = glob.glob(os.path.join(training_path, 'LR/*.jpg'))
-    # file.sort()
-    # n_images = len(file)
-    # mean_list = []
-    # std_list = []
-    # for i in tqdm(range(n_images)):
-    #     im = np.asarray(Image.open(file[i]))
-    #     im = im/255
-    #     mean = np.mean(im, axis=(0,1))
-    #     mean_list.append(mean)
-    #     std = np.std(im, axis=(0,1))
-    #     std_list.append(std)
-    # mean = np.array(mean_list).mean(axis=0)
-    # std = np.array(std_list).mean(axis=0)
-    # print('Mean: ', mean)
-    # print('Std: ', std)
-
+    # compute_mean_datset(training_path, format)

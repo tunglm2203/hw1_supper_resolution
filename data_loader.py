@@ -9,6 +9,8 @@ from utils import *
 
 import os
 
+IMAGE_FORMAT = '*.png'
+
 class SRDataset(Dataset):
     def __init__(self, path, patch_size, scale, aug=True, crop=False, transform=None):
         self.path = path
@@ -19,7 +21,7 @@ class SRDataset(Dataset):
         self.aug = aug
 
         if not os.path.exists(self.path):
-            print('Warning: Dataset path is not exist: ', self.path)
+            print('Dataset path is not exist: ', self.path)
         elif not (os.path.exists(os.path.join(path, 'lr_images.npy')) or
                   os.path.exists(os.path.join(path, 'hr_images.npy'))):
             print('Not exist compressed data, creating...')
