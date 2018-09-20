@@ -1,3 +1,9 @@
+# EE838 Special Topics on Image Engineering <Image Restoration and Quality Enhancement>
+# Semester: Fall 2018, School of EE, KAIST
+# Student: Tung M. Luu
+# ----------------------------- Homework Assignment 1 -----------------------------
+# ---- Implementation and Verification of Single Image Super-Resolution (SISR) ----
+
 from tensorboardX import SummaryWriter
 from torch.utils.data import DataLoader
 from torchvision import transforms
@@ -17,16 +23,16 @@ import os
 os.environ['CUDA_VISIBLE_DEVICES']='6'
 
 parser = argparse.ArgumentParser(description='Super Resolution using simple CNN')
-parser.add_argument('--n_iter', type=int, default=10000, help='Number of epochs (Default: 10)')
+parser.add_argument('--n_iter', type=int, default=10000, help='Number of epochs (Default: 10000)')
 parser.add_argument('--batch_size', type=int, default=16, help='Batch size (Default: 16)')
 parser.add_argument('--period_check', type=int, default=1, help='Check after N iter (Default 1)')
 parser.add_argument('--use_gpu', action='store_false', help='Use gpu or not (Default True)')
 parser.add_argument('--weight_decay', type=float, default=0, help='Weight decay (Default 0)')
-parser.add_argument('--learning_rate', type=float, default=1e-4, help='Learning rate (Default 1e-2)')
+parser.add_argument('--learning_rate', type=float, default=1e-4, help='Learning rate (Default 1e-4)')
 parser.add_argument('--checkpoint', type=str, default='checkpoint', help='Path to checkpoint')
 parser.add_argument('--finetune', action='store_true', help='Finetune model  (Default False)')
 parser.add_argument('--model_path', type=str, help='Path to pretrained model')
-parser.add_argument('--step', type=int, default=5000, help='Step decay learning rate  (Default 10)')
+parser.add_argument('--step', type=int, default=1000, help='Step decay learning rate  (Default 1000)')
 parser.add_argument('--num_workers', type=int, default=4, help='Number of workers (Default 8)')
 parser.add_argument('--manualSeed', type=int, default=1, help='Manually set seed')
 

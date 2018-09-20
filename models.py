@@ -1,5 +1,10 @@
+# EE838 Special Topics on Image Engineering <Image Restoration and Quality Enhancement>
+# Semester: Fall 2018, School of EE, KAIST
+# Student: Tung M. Luu
+# ----------------------------- Homework Assignment 1 -----------------------------
+# ---- Implementation and Verification of Single Image Super-Resolution (SISR) ----
+
 import torch.nn as nn
-import torch
 
 class ResidualBlock(nn.Module):
     def __init__(self, n_features, kernel_size, stride=1, bias=True, act=None):

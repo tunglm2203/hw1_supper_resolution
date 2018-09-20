@@ -1,3 +1,9 @@
+# EE838 Special Topics on Image Engineering <Image Restoration and Quality Enhancement>
+# Semester: Fall 2018, School of EE, KAIST
+# Student: Tung M. Luu
+# ----------------------------- Homework Assignment 1 -----------------------------
+# ---- Implementation and Verification of Single Image Super-Resolution (SISR) ----
+
 from torch.autograd import Variable
 from tqdm import tqdm
 from PIL import Image
