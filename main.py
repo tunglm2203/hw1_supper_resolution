@@ -31,7 +31,6 @@ parser.add_argument('--weight_decay', type=float, default=0, help='Weight decay 
 parser.add_argument('--learning_rate', type=float, default=1e-4, help='Learning rate (Default 1e-4)')
 parser.add_argument('--checkpoint', type=str, default='checkpoint', help='Path to checkpoint')
 parser.add_argument('--finetune', action='store_true', help='Finetune model  (Default False)')
-parser.add_argument('--model_path', type=str, help='Path to pretrained model')
 parser.add_argument('--step', type=int, default=1000, help='Step decay learning rate  (Default 1000)')
 parser.add_argument('--num_workers', type=int, default=4, help='Number of workers (Default 8)')
 parser.add_argument('--manualSeed', type=int, default=1, help='Manually set seed')
@@ -148,6 +147,7 @@ def main():
         optimizer.load_state_dict(ckpt['optimizer'])
         model_lr_scheduler.load_state_dict(ckpt['lr_scheduler'])
         best_psnr = ckpt['best_psnr']
+        print('Load from checkpoint done.')
     else:
         best_psnr = 0.0
         start_iter = 0
@@ -216,7 +216,7 @@ def main():
                     for batch_idx, (lr_images, hr_images) in enumerate(tqdm(valid_loader)):
                         lr_images, hr_images = Variable(lr_images).to(device), Variable(hr_images).to(device)
                         sr_images = model(lr_images)
-                        vutils.save_image(sr_images, '%s/output/%04d.jpg' % (args.checkpoint, batch_idx),
+                        vutils.save_image(sr_images, '%s/output/%04d.png' % (args.checkpoint, batch_idx+1),
                                           normalize=False,
                                           padding=0)
 

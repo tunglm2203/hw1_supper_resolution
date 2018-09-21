@@ -12,7 +12,7 @@ import os
 IMAGE_FORMAT = '*.png'
 
 class SRDataset(Dataset):
-    def __init__(self, path, patch_size, scale, aug=True, crop=False, transform=None):
+    def __init__(self, path, patch_size, scale, aug=False, crop=False, transform=None):
         self.path = path
         self.patch_size = patch_size
         self.scale = scale
