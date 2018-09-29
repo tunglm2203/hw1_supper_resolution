@@ -22,5 +22,17 @@ where,
 --lr_path: Path to LR images
 --sr_path: Path to save SR images output from model
 
-Note: You can change ID of GPU depend on your resources, this code support trains with multiple GPUs.
+NOTE: First time training, the compressed binary data will be created for speed up training. You can change ID of GPU depend on your resources, this code support trains with multiple GPUs.
+
+Structure of project:
++data: Directory contains data for train and test
++checkpoint: Directory contains checkpoint for training, output SR images for best model
++benchmark: Directory used to benchmark, run script 'test_evaluate.sh' will auto generating images to this directory
+-data_loader.py: File contains class used to load data for training and testing
+-models.py: File contains the model
+-utils.py: Fiel contains ultility functions (cropping images, create compressed binary data, compute psnr, etc.)
+-main.py: File contains the framework for training
+-test.py: File contains the framework for testing
+-evaluation.py: File used to compute PSNR, SSIM
+-myssim: Support to compute SSIM
 

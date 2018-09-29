@@ -26,7 +26,7 @@ parser.add_argument('--batch_size', type=int, default=16, help='Batch size (Defa
 parser.add_argument('--period_check', type=int, default=1, help='Check after N iter (Default 1)')
 parser.add_argument('--use_gpu', action='store_false', help='Use gpu or not (Default True)')
 parser.add_argument('--weight_decay', type=float, default=0, help='Weight decay (Default 0)')
-parser.add_argument('--learning_rate', type=float, default=1e-4, help='Learning rate (Default 1e-4)')
+parser.add_argument('--learning_rate', type=float, default=1e-3, help='Learning rate (Default 1e-4)')
 parser.add_argument('--checkpoint', type=str, default='checkpoint', help='Path to checkpoint')
 parser.add_argument('--finetune', action='store_true', help='Finetune model  (Default False)')
 parser.add_argument('--model_path', type=str, help='Path to pretrained model')
@@ -75,11 +75,13 @@ def main():
                               patch_size=patch_size,
                               scale=scale,
                               crop=True,
+                              aug=True,
                               transform=data_transforms['train'])
     valid_data = SRDataset(path=valid_path,
                            patch_size=patch_size,
                            scale=scale,
                            crop=False,
+                           aug=False,
                            transform=data_transforms['val'])
     print("Load data done: %.4f (s)\n" % (time.time() - time_start))
     print("Number training data: %d" % (len(training_data)))
@@ -217,9 +219,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-    # Code used to compute mean and standard deviation
-    # training_path = './data/train/LR/'
-    # format = 'jpg'
-    # print('Computing mean and std of dataset...')
-    # compute_mean_dataset(training_path, format)
