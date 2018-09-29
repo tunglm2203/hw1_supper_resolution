@@ -20,10 +20,8 @@ import argparse
 import random
 import os
 
-os.environ['CUDA_VISIBLE_DEVICES']='6'
-
 parser = argparse.ArgumentParser(description='Super Resolution using simple CNN')
-parser.add_argument('--n_iter', type=int, default=10000, help='Number of epochs (Default: 10000)')
+parser.add_argument('--n_iter', type=int, default=1000, help='Number of epochs (Default: 10000)')
 parser.add_argument('--batch_size', type=int, default=16, help='Batch size (Default: 16)')
 parser.add_argument('--period_check', type=int, default=1, help='Check after N iter (Default 1)')
 parser.add_argument('--use_gpu', action='store_false', help='Use gpu or not (Default True)')
@@ -31,7 +29,8 @@ parser.add_argument('--weight_decay', type=float, default=0, help='Weight decay 
 parser.add_argument('--learning_rate', type=float, default=1e-4, help='Learning rate (Default 1e-4)')
 parser.add_argument('--checkpoint', type=str, default='checkpoint', help='Path to checkpoint')
 parser.add_argument('--finetune', action='store_true', help='Finetune model  (Default False)')
-parser.add_argument('--step', type=int, default=1000, help='Step decay learning rate  (Default 1000)')
+parser.add_argument('--model_path', type=str, help='Path to pretrained model')
+parser.add_argument('--step', type=int, default=200, help='Step decay learning rate  (Default 1000)')
 parser.add_argument('--num_workers', type=int, default=4, help='Number of workers (Default 8)')
 parser.add_argument('--manualSeed', type=int, default=1, help='Manually set seed')
 
@@ -58,9 +57,6 @@ def main():
 
     if not os.path.exists(args.checkpoint):
         os.mkdir(args.checkpoint)
-
-    # mean = (0.4693926,  0.4458207,  0.40687277)
-    # std = (0.23531944, 0.23097074, 0.23417351)
 
     # transforms.Normalize(mean, std)
     data_transforms = {
@@ -147,7 +143,6 @@ def main():
         optimizer.load_state_dict(ckpt['optimizer'])
         model_lr_scheduler.load_state_dict(ckpt['lr_scheduler'])
         best_psnr = ckpt['best_psnr']
-        print('Load from checkpoint done.')
     else:
         best_psnr = 0.0
         start_iter = 0
@@ -223,7 +218,7 @@ def main():
 if __name__ == '__main__':
     main()
 
-    # Snippet used to compute mean and standard deviation
+    # Code used to compute mean and standard deviation
     # training_path = './data/train/LR/'
     # format = 'jpg'
     # print('Computing mean and std of dataset...')
