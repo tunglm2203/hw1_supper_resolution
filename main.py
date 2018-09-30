@@ -26,7 +26,8 @@ parser.add_argument('--batch_size', type=int, default=16, help='Batch size (Defa
 parser.add_argument('--period_check', type=int, default=1, help='Check after N iter (Default 1)')
 parser.add_argument('--use_gpu', action='store_false', help='Use gpu or not (Default True)')
 parser.add_argument('--weight_decay', type=float, default=0, help='Weight decay (Default 0)')
-parser.add_argument('--learning_rate', type=float, default=1e-3, help='Learning rate (Default 1e-4)')
+parser.add_argument('--learning_rate', type=float, default=1e-4, help='Learning rate (Default 1e-4)')
+parser.add_argument('--force_lr', type=float, default=None, help='Learning rate (Default 1e-4)')
 parser.add_argument('--checkpoint', type=str, default='checkpoint', help='Path to checkpoint')
 parser.add_argument('--finetune', action='store_true', help='Finetune model  (Default False)')
 parser.add_argument('--model_path', type=str, help='Path to pretrained model')
@@ -58,7 +59,6 @@ def main():
     if not os.path.exists(args.checkpoint):
         os.mkdir(args.checkpoint)
 
-    # transforms.Normalize(mean, std)
     data_transforms = {
         'train': transforms.Compose([
         transforms.ToTensor()
@@ -129,6 +129,8 @@ def main():
     print("Load model done.\n")
 
     # ---------- Optimizer ----------
+    if args.force_lr is not None:
+        args.learning_rate = args.force_lr
     optimizer = optim.Adam(filter(lambda p: p.requires_grad, model.parameters()),
                            lr=args.learning_rate,
                            weight_decay=args.weight_decay)
@@ -143,8 +145,12 @@ def main():
         start_iter = ckpt['iter']
         model.load_state_dict(ckpt['model'])
         optimizer.load_state_dict(ckpt['optimizer'])
-        model_lr_scheduler.load_state_dict(ckpt['lr_scheduler'])
+        if args.force_lr is None:
+            model_lr_scheduler.load_state_dict(ckpt['lr_scheduler'])
         best_psnr = ckpt['best_psnr']
+        print('Load done, finetune from: ')
+        print("%10s: %d" % ('iter', start_iter))
+        print("%10s: %.4f\n" % ('PSNR', best_psnr))
     else:
         best_psnr = 0.0
         start_iter = 0
