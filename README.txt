@@ -1,4 +1,4 @@
-Requirement packages:
+Requirement:
     tensorflow (newest)
     torch==0.4.0
     torchvision
@@ -6,6 +6,8 @@ Requirement packages:
     tqdm
     pillow
     scipy
+
+Data: Extract dataset, copy training (HR, LR) and validation (HR, LR) data into directory ./data/train and ./data/valid, respectively.
 
 Training command:
 CUDA_VISIBLE_DEVICES=your_id_gpu python main --checkpoint checkpoint/training_1 --n_iters 1000

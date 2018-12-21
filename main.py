@@ -141,7 +141,7 @@ def main():
 
     # ---------- Load pretrained model ----------
     if args.finetune:
-        ckpt = torch.load(os.path.join(args.checkpoint, 'ckpt.pth'))
+        ckpt = torch.load(os.path.join(args.model_path, 'ckpt.pth'))
         start_iter = ckpt['iter']
         model.load_state_dict(ckpt['model'])
         optimizer.load_state_dict(ckpt['optimizer'])
@@ -194,9 +194,9 @@ def main():
                     sr_images = model(lr_images)
                     sr_images = sr_images.clamp(0, 1.0)
                     valid_psnr += compute_psnr(sr_images, hr_images)
-                    tensor_board.add_image(str(batch_idx + 1) + '_LR', lr_images, iter)
-                    tensor_board.add_image(str(batch_idx + 1) + '_HR', hr_images, iter)
-                    tensor_board.add_image(str(batch_idx + 1) + '_SR', sr_images, iter)
+                    #tensor_board.add_image(str(batch_idx + 1) + '_LR', lr_images, iter)
+                    #tensor_board.add_image(str(batch_idx + 1) + '_HR', hr_images, iter)
+                    #tensor_board.add_image(str(batch_idx + 1) + '_SR', sr_images, iter)
             valid_psnr = valid_psnr / n_valid
             print("Validation PSNR: %.4f\n" % (valid_psnr))
             tensor_board.add_scalar('Validation PSNR', valid_psnr, iter)

@@ -16,8 +16,6 @@ import argparse
 import os
 import glob
 
-os.environ['CUDA_VISIBLE_DEVICES']='6'
-
 parser = argparse.ArgumentParser(description='Super Resolution using simple CNN')
 parser.add_argument('--use_gpu', action='store_false', help='Use gpu or not (Default True)')
 parser.add_argument('--checkpoint', type=str, help='Path to pretrained model')
